@@ -40,8 +40,6 @@ commands:
             fi
           when: on_fail
 
-orbs:
-  slack: circleci/slack@4.2.0
 
 jobs:
   build-frontend:
@@ -61,10 +59,6 @@ jobs:
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-build
-      - slack/notify:
-          event: fail
-          mentions: '@ignacio.paricio'
-          template: basic_fail_1
 
   build-backend:
     docker:
@@ -83,10 +77,6 @@ jobs:
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
-      - slack/notify:
-          event: fail
-          mentions: '@ignacio.paricio'
-          template: basic_fail_1
 
   test-frontend:
     docker:
@@ -105,10 +95,6 @@ jobs:
              cd frontend
              npm install
              npm run test
-      - slack/notify:
-          event: fail
-          mentions: '@ignacio.paricio'
-          template: basic_fail_1
              
   test-backend:
     docker:
@@ -127,10 +113,6 @@ jobs:
              cd backend
              npm install
              npm run test
-      - slack/notify:
-          event: fail
-          mentions: '@ignacio.paricio'
-          template: basic_fail_1
             
   scan-frontend:
     docker:
@@ -148,10 +130,6 @@ jobs:
              # Your code here
              cd frontend
              npm audit --audit-level=critical
-      - slack/notify:
-          event: fail
-          mentions: '@ignacio.paricio'
-          template: basic_fail_1
 
   scan-backend:
     docker:
@@ -169,10 +147,6 @@ jobs:
              # Your code here
              cd backend
              npm audit fix --audit-level=critical --force
-      - slack/notify:
-          event: fail
-          mentions: '@ignacio.paricio'
-          template: basic_fail_1
 
   deploy-infrastructure:
     docker:
@@ -214,10 +188,6 @@ jobs:
             - project/backend/
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID}
-      - slack/notify:
-          event: fail
-          mentions: '@ignacio.paricio'
-          template: basic_fail_1
       # Here's where you will add some code to rollback on failure
 
   configure-infrastructure:
@@ -229,7 +199,7 @@ jobs:
       - checkout
       # Add ssh keys with fingerprint
       - add_ssh_keys:
-          fingerprints: ["53:ed:0d:b2:e2:aa:fa:ec:8b:bd:af:c4:d6:6e:f8:d8"]
+          fingerprints: ["34:e8:97:b0:87:3b:6f:57:79:0b:3e:02:e6:d3:9a:d2"]
       - run:
           name: Install dependencies
           command: |
@@ -248,10 +218,7 @@ jobs:
             # Your code here
             cd .circleci/ansible
             ansible-playbook -i inventory.txt configure-server.yml
-      - slack/notify:
-          event: fail
-          mentions: '@ignacio.paricio'
-          template: basic_fail_1
+
       # Here's where you will add some code to rollback on failure
 
   run-migrations:
@@ -338,7 +305,7 @@ jobs:
       - checkout
       # Add ssh keys with fingerprint
       - add_ssh_keys:
-          fingerprints: ["53:ed:0d:b2:e2:aa:fa:ec:8b:bd:af:c4:d6:6e:f8:d8"]
+          fingerprints: ["34:e8:97:b0:87:3b:6f:57:79:0b:3e:02:e6:d3:9a:d2"]
       - run:
           name: Install dependencies
           command: |
