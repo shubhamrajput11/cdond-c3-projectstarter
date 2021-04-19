@@ -159,10 +159,17 @@ jobs:
       - run:
           name: Ensure back-end infrastructure exists
           command: |
+            # aws cloudformation deploy \
+            #   --template-file .circleci/files/backend.yml \
+            #   --tags project=udapeople-${CIRCLE_WORKFLOW_ID:0:7} \
+            #   --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7} \
+            #   --region us-west-2 \
+            #   --parameter-overrides ID=${CIRCLE_WORKFLOW_ID:0:7} 
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
               --tags project=udapeople-backend-infrastructure \
               --stack-name "backend-${CIRCLE_WORKFLOW_ID}" \
+              ----region us-west-2 \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID}"
       - run:
           name: Ensure front-end infrastructure exist
@@ -171,6 +178,7 @@ jobs:
               --template-file .circleci/files/frontend.yml \
               --tags project=udapeople-frontend-infrastructure \
               --stack-name "frontend-${CIRCLE_WORKFLOW_ID}" \
+              --region us-west-2 \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID}"
       - run:
           name: Add back-end ip to ansible inventory
@@ -199,7 +207,7 @@ jobs:
       - checkout
       # Add ssh keys with fingerprint
       - add_ssh_keys:
-          fingerprints: ["34:e8:97:b0:87:3b:6f:57:79:0b:3e:02:e6:d3:9a:d2"]
+          fingerprints: ["aa:38:73:f4:9d:0e:f1:c9:96:a3:58:01:83:db:14:92"]
       - run:
           name: Install dependencies
           command: |
@@ -305,7 +313,7 @@ jobs:
       - checkout
       # Add ssh keys with fingerprint
       - add_ssh_keys:
-          fingerprints: ["34:e8:97:b0:87:3b:6f:57:79:0b:3e:02:e6:d3:9a:d2"]
+          fingerprints: ["aa:38:73:f4:9d:0e:f1:c9:96:a3:58:01:83:db:14:92"]
       - run:
           name: Install dependencies
           command: |
