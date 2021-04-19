@@ -219,10 +219,10 @@ jobs:
           command: |
             apk add --update tar gzip ansible nodejs npm curl
             pip install awscli
-      - run:
-          name: Check there is .env file at workspace.
-          command: |
-            cat backend/.env
+      # - run:
+      #     name: Check there is .env file at workspace.
+      #     command: |
+      #       cat backend/.env
       # - run:
       #     name: Install dependencies
       #     command: |
