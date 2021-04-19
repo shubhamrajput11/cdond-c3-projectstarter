@@ -208,22 +208,36 @@ jobs:
       # Add ssh keys with fingerprint
       - add_ssh_keys:
           fingerprints: ["aa:38:73:f4:9d:0e:f1:c9:96:a3:58:01:83:db:14:92"]
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: Install ansible.
+          command: |
+           apk add --update ansible
       - run:
           name: Install dependencies
           command: |
-            # Your code here
-            apk add --update ansible
-            apk add tar
-            apk add gzip
+            apk add --update tar gzip ansible nodejs npm curl
             pip install awscli
-      # attach workspace
-      - attach_workspace:
-          at: ~/
+      - run:
+          name: Check there is .env file at workspace.
+          command: |
+            cat backend/.env
+      # - run:
+      #     name: Install dependencies
+      #     command: |
+      #       # Your code here
+      #       apk add --update ansible
+      #       apk add tar
+      #       apk add gzip
+      #       pip install awscli
+      # # attach workspace
+      # - attach_workspace:
+      #     at: ~/
       - run:
           name: Configure server
           no_output_timeout: 15m
           command: |
-            # Your code here
             cd .circleci/ansible
             echo "Inventory content"
             cat inventory.txt
